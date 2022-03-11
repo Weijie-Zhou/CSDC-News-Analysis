@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>新闻评论数量地域分布</title>
+</head>
+<body>
+<div id="chart" ></div>
+<style>
+  html, body {
+    width: 100%;
+    height: 100%;
+  }
+  #chart {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+<script src="js/echarts.js"></script>
+<script src="js/china.js"></script>
+<script src="js/comment_area_data.js"></script>
+<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+<script>
+  // var dataList = [{'name': '北京', 'value': 84693}, {'name': '广东', 'value': 52953}, {'name': '山东', 'value': 36551}, {'name': '江苏', 'value': 36530}, {'name': '浙江', 'value': 30197}, {'name': '上海', 'value': 30141}, {'name': '湖北', 'value': 26642}, {'name': '四川', 'value': 24804}, {'name': '河南', 'value': 23188}, {'name': '河北', 'value': 22722}, {'name': '辽宁', 'value': 20251}, {'name': '安徽', 'value': 16605}, {'name': '江西', 'value': 13709}, {'name': '湖南', 'value': 13371}, {'name': '陕西', 'value': 12871}, {'name': '广西', 'value': 12765}, {'name': '福建', 'value': 11965}, {'name': '黑龙江', 'value': 11316}, {'name': '天津', 'value': 11171}, {'name': '重庆', 'value': 11130}, {'name': '山西', 'value': 9950}, {'name': '吉林', 'value': 8146}, {'name': '云南', 'value': 6942}, {'name': '内蒙古', 'value': 6506}, {'name': '贵州', 'value': 5122}, {'name': '甘肃', 'value': 4480}, {'name': '新疆', 'value': 4478}, {'name': '海南', 'value': 4304}, {'name': '宁夏', 'value': 1857}, {'name': '香港', 'value': 1403}, {'name': '青海', 'value': 1104}, {'name': '台湾', 'value': 967}, {'name': '西藏', 'value': 249}, {'name': '澳门', 'value': 171}]
+
+  const chart = echarts.init(document.getElementById('chart'));
+  chart.setOption({
+    visualMap: {
+        min: 0,
+        max: 100000,
+        showLabel: !0,
+        text: ["高", "低"],
+    },
+    tooltip: {
+          trigger: 'item'
+        },
+    geo: {
+        map: "china",
+        roam: !1,
+        scaleLimit: {
+            min: 1,
+            max: 2
+        },
+        zoom: 1,
+        top: 60,
+        label: {
+            normal: {
+                show: !0,
+                fontSize: "14",
+                color: "rgba(0,0,0,0.7)"
+            }
+        },
+        itemStyle: {
+            normal: {
+                //shadowBlur: 50,
+                //shadowColor: 'rgba(0, 0, 0, 0.2)',
+                borderColor: "rgba(0, 0, 0, 0.2)"
+            },
+            emphasis: {
+                areaColor: "#f2d5ad",
+                shadowOffsetX: 0,
+                shadowOffsetY: 0,
+                borderWidth: 0
+            }
+        }
+    },
+    series: [{
+        name: "评论数量",
+        type: "map",
+        geoIndex: 0,
+        data: comment_area_data
+    }]
+    });
+  
+</script>
+</body>

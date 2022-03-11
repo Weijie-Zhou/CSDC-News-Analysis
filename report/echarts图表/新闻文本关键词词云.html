@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>新闻文本关键词词云</title>
+</head>
+<body>
+<div id="chart" ></div>
+<style>
+  html, body {
+    width: 100%;
+    height: 100%;
+  }
+  #chart {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+<script src="js/echarts.js"></script>
+<script src="js/echarts-wordcloud.js"></script>
+<script src="js/news_keywords_top10.js"></script>
+<script src="js/news_date.js"></script>
+<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+<script>
+  function randomColor() {
+    return 'rgb(' + [
+      Math.round(Math.random() * 160),
+      Math.round(Math.random() * 160),
+      Math.round(Math.random() * 160)
+    ].join(',') + ')';
+  };
+
+  const chart = echarts.init(document.getElementById('chart'));
+  function display() {
+    chart.setOption({
+      title: [{
+        text: '',
+        left: 'center',
+        top: '5%',
+        textStyle: {
+          fontStyle: 'normal',
+          fontWeight: 'bold',
+          fontFamily: 'PingFangSC-Semibold',
+          fontSize: 48
+        }
+      }],
+      series: [{
+        type: 'wordCloud',
+        shape: 'circle',
+        left: 'center',
+        top: 'center',
+        width: '100%',
+        height: '100%',
+        right: null,
+        bottom: null,
+        sizeRange: [30, 90],
+        rotationRange: [0, 30],
+        rotationStep: 30,
+        gridSize: 25,
+        drawOutOfBound: false,
+        layoutAnimation: true,
+        textStyle: {
+          normal: {
+            fontFamily: 'PingFangSC-Semibold',
+            fontWeight: 600
+          },
+          emphasis: {
+            shadowBlur: 10,
+            shadowColor: '#333'
+          }
+        },
+        data: []
+      }]
+    });
+  };
+
+  function fetchData(data_i) {
+    const data = keywords[data_i].map(val => ({
+      ...val,
+      textStyle: {
+        normal: {
+          color: randomColor()
+        }
+      }
+    }));
+    chart.setOption({
+      title: {
+        text: data_i
+      },
+      series: [{
+        data: data
+      }]
+    })
+  }
+
+  display();
+
+  for (var x=0, ln=news_date.length; x<ln; x++){
+    setTimeout(function(y) {
+      fetchData(news_date[y])
+    }, x*1000, x);
+  }
+  
+</script>
+</body>
