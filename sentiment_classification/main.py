@@ -95,7 +95,7 @@ def train_with_eval():
     eval_per_n_steps = math.ceil(config['train_size'] * eval_per_n_epochs / config['batch_size'])
     # 每个epoch有多少步
     steps_one_epoch = math.ceil(config['train_size'] / config['batch_size'])
-    best_f1 = float('inf')
+    best_f1 = -float('inf')
     # 训练
     for train_step in range(total_train_steps):
         if train_step % steps_one_epoch == 0:
@@ -150,8 +150,8 @@ def train_with_eval():
                 # 将f1记录到summaries_writer
                 summaries_writer.add_scalar('eval f1', f1, int(train_step / eval_per_n_steps))
                 logging.info(f'{int(train_step / eval_per_n_steps)}th model evaluation is completed')
-                # 如果当前验证集的f1比best_f1要小，则进行模型保存，并更新best_f1
-                if best_f1 > f1:
+                # 如果当前验证集的f1比best_f1要大，则进行模型保存，并更新best_f1
+                if f1 > best_f1:
                     best_f1 = f1
                     logging.info(f'start {int(train_step / eval_per_n_steps)}th model saving')
                     if not os.path.exists(model_save_path):
